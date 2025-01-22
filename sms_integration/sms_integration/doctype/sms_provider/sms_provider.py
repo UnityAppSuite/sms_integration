@@ -14,7 +14,7 @@ class SMSProvider(Document):
         self.validate_default()
 
     def validate_default(self):
-        providers = frappe.db.count("SMS Provider Settings", filters={"default_sending": 1})
+        providers = frappe.db.count("SMS Provider", filters={"default_sending": 1})
         if providers > 1:
             frappe.throw("Default Sending can only be set for one provider.")
 

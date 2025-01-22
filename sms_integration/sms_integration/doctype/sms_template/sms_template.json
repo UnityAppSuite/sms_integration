@@ -1,0 +1,73 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{sms_type}-{sms_provider}",
+ "creation": "2025-01-21 14:13:41.610017",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sms_provider",
+  "sms_type",
+  "template_id",
+  "column_break_fora",
+  "message"
+ ],
+ "fields": [
+  {
+   "description": "Name of SMS Type",
+   "fieldname": "sms_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "SMS Type"
+  },
+  {
+   "fieldname": "template_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template ID"
+  },
+  {
+   "description": "Please add message using jinja templating",
+   "fieldname": "message",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Message"
+  },
+  {
+   "fieldname": "sms_provider",
+   "fieldtype": "Link",
+   "label": "SMS Provider",
+   "options": "SMS Provider"
+  },
+  {
+   "fieldname": "column_break_fora",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-22 15:39:19.375979",
+ "modified_by": "Administrator",
+ "module": "SMS Integration",
+ "name": "SMS Template",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
