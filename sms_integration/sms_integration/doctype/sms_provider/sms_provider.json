@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{sms_provider}-({sender_id})",
+ "creation": "2025-01-20 16:47:08.189272",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "sms_provider",
+  "route",
+  "channel",
+  "flash_sms",
+  "column_break_rarz",
+  "sender_id",
+  "api_key",
+  "platform_entity_id",
+  "default_sending",
+  "dcs"
+ ],
+ "fields": [
+  {
+   "fieldname": "api_key",
+   "fieldtype": "Password",
+   "in_list_view": 1,
+   "label": "API Key",
+   "reqd": 1
+  },
+  {
+   "default": "Trans",
+   "description": "Message channel promotional or transactional",
+   "fieldname": "channel",
+   "fieldtype": "Select",
+   "label": "Channel",
+   "options": "Trans\nPromo"
+  },
+  {
+   "default": "0",
+   "description": "Data coding value",
+   "fieldname": "dcs",
+   "fieldtype": "Check",
+   "label": "DCS"
+  },
+  {
+   "default": "0",
+   "fieldname": "flash_sms",
+   "fieldtype": "Check",
+   "label": "Flash SMS"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Route",
+   "reqd": 1
+  },
+  {
+   "description": "DLT platform entity id.",
+   "fieldname": "platform_entity_id",
+   "fieldtype": "Data",
+   "label": "Platform Entity Id"
+  },
+  {
+   "fieldname": "column_break_rarz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sms_provider",
+   "fieldtype": "Select",
+   "label": "SMS Provider",
+   "options": "\nBusiness Lead\nSMS Solutions"
+  },
+  {
+   "fieldname": "sender_id",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Sender ID",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "default_sending",
+   "fieldtype": "Check",
+   "label": "Default Sending"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-22 12:24:16.090499",
+ "modified_by": "Administrator",
+ "module": "SMS Integration",
+ "name": "SMS Provider",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "sender_id"
+}
