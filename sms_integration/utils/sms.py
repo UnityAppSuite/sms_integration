@@ -12,6 +12,7 @@ def send_sms(phone_number, sms_template, context={}, sender_id=None, doc=None):
         sms_template (str): SMS Template ID to use (DocType: SMS Template)
         sender_id (str, optional): Sender ID. Defaults to None.
         context (dict, optional): Context to render the SMS Template. Defaults to {}.
+        doc (Document, optional): SMS Provider Settings Document. Defaults to None.
     """
     try:
         if not doc:
@@ -26,15 +27,7 @@ def send_sms(phone_number, sms_template, context={}, sender_id=None, doc=None):
                 sms_template_doc.template_id,
                 sender_id,
             )
-        elif doc.sms_provider == "SMS Solutions":
-            return sms_solutions_send_sms(
-                doc,
-                phone_number,
-                message,
-                sms_template_doc.template_id,
-                sender_id,
-                context
-            )
+        # TODO: Add other providers here
         else:
             frappe.log_error(title=f"Failed to send SMS to {phone_number}", message="SMS Provider not found")
     except Exception as e:
@@ -60,7 +53,6 @@ def business_lead_send_sms(doc, phone_number, message, template_id, sender_id=No
 
     url = "http://login.businesslead.co.in/api/mt/SendSMS"
     params = {
-        "apikey": doc.get_password(fieldname="api_key", raise_exception=False),
         "senderid": sender_id or doc.sender_id,
         "channel": doc.channel,
         "dcs": cint(doc.dcs),
@@ -71,16 +63,21 @@ def business_lead_send_sms(doc, phone_number, message, template_id, sender_id=No
         "dlttemplateid": template_id,
         "peid": doc.platform_entity_id,
     }
+    if doc.auth_type == "USER_PASS":
+        params["user"] = doc.username
+        params["password"] = doc.get_password(fieldname="password", raise_exception=False)
+    else:
+        params["apikey"] = doc.get_password(fieldname="api_key", raise_exception=False)
 
     try:
         response = requests.get(url, params=params)
         response.raise_for_status()
         res = response.json()
-        if res.get("status") == "success":
+        if res.get("ErrorCode") == "000":
             return True
         else:
             frappe.logger("sms_integration").exception(
-                f"Failed to send SMS: {phone_number} {response.status_code}, {response.text}"
+                f"Failed to send SMS: {phone_number} \n{response.status_code}, {response.text}"
             )
             return False
     except requests.RequestException as e:
@@ -88,18 +85,3 @@ def business_lead_send_sms(doc, phone_number, message, template_id, sender_id=No
             f"Failed to send SMS: {phone_number} {e}"
         )
         return False
-
-
-def sms_solutions_send_sms(doc, phone_number, message, template_id, sender_id=None, context={}):
-    """
-    Send SMS using SMS Solutions
-
-    Args:
-        doc (Document): SMS Provider Settings Document
-        phone_number (str): Phone number to send SMS
-        message (str): Message to send
-        template_id (str): Template ID to use
-        sender_id (str, optional): Sender ID. Defaults to None.
-        context (dict, optional): Context to render the SMS Template. Defaults to {}.
-    """
-    pass

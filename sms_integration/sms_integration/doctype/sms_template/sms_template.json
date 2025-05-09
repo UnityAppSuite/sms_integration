@@ -19,26 +19,30 @@
    "fieldname": "sms_type",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "SMS Type"
+   "label": "SMS Type",
+   "reqd": 1
   },
   {
    "fieldname": "template_id",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Template ID"
+   "label": "Template ID",
+   "reqd": 1
   },
   {
    "description": "Please add message using jinja templating",
    "fieldname": "message",
    "fieldtype": "Small Text",
    "in_list_view": 1,
-   "label": "Message"
+   "label": "Message",
+   "reqd": 1
   },
   {
    "fieldname": "sms_provider",
    "fieldtype": "Link",
    "label": "SMS Provider",
-   "options": "SMS Provider"
+   "options": "SMS Provider",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_fora",
@@ -47,9 +51,9 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-22 15:39:19.375979",
+ "modified": "2025-05-09 19:13:19.281205",
  "modified_by": "Administrator",
- "module": "SMS Integration",
+ "module": "Sms Integration",
  "name": "SMS Template",
  "naming_rule": "Expression",
  "owner": "Administrator",
@@ -67,6 +71,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []

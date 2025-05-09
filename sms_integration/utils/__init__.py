@@ -1,1 +1,1 @@
-from sms_integration.utils.sms import send_sms, business_lead_send_sms, sms_solutions_send_sms
+from sms_integration.utils.sms import send_sms, business_lead_send_sms
