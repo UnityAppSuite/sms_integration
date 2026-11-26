@@ -61,7 +61,8 @@
    "description": "DLT platform entity id.",
    "fieldname": "platform_entity_id",
    "fieldtype": "Data",
-   "label": "Platform Entity Id"
+   "label": "Platform Entity Id",
+   "mandatory_depends_on": "eval: doc.sms_provider == \"2Factor\""
   },
   {
    "fieldname": "column_break_rarz",

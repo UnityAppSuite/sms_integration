@@ -105,17 +105,20 @@ def two_factor_send_sms(doc, phone_number, message, template_id, sender_id=None)
     if not message:
         frappe.throw("Message is required to send SMS.")
 
+    if not doc.platform_entity_id:
+        frappe.throw("Platform Entity Id (DLT PE ID) is required to send SMS via 2Factor.")
+    if not template_id:
+        frappe.throw("Template ID (DLT content template ID) is required to send SMS via 2Factor.")
+
     data = {
         "module": "TRANS_SMS",
         "apikey": doc.get_password(fieldname="api_key", raise_exception=False),
         "to": phone_number,
         "from": sender_id or doc.sender_id,
         "msg": message,
+        "peid": doc.platform_entity_id,
+        "ctid": template_id,
     }
-    if doc.platform_entity_id:
-        data["peid"] = doc.platform_entity_id
-    if template_id:
-        data["ctid"] = template_id
 
     log = frappe.logger("sms_integration")
     try:

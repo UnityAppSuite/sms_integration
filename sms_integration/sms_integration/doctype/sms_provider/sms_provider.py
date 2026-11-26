@@ -11,6 +11,8 @@ class SMSProvider(Document):
             frappe.throw("API Key is required to send SMS.")
         if not self.sender_id:
             frappe.throw("Sender ID is required to send SMS.")
+        if self.sms_provider == "2Factor" and not self.platform_entity_id:
+            frappe.throw("Platform Entity Id (DLT PE ID) is required for 2Factor.")
         self.validate_default()
 
     def validate_default(self):
