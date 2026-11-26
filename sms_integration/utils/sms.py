@@ -45,7 +45,9 @@ def send_sms(phone_number, sms_template, context={}, sender_id=None, doc=None):
             )
         else:
             frappe.log_error(title=f"Failed to send SMS to {phone_number}", message="SMS Provider not found")
-    except Exception as e:
+    except frappe.ValidationError:
+        raise
+    except Exception:
         frappe.log_error(title=f"Failed to send SMS to {phone_number}", message=frappe.get_traceback())
         return False
 
