@@ -27,6 +27,7 @@
   },
   {
    "default": "Trans",
+   "depends_on": "eval: doc.sms_provider == \"Business Lead\"",
    "description": "Message channel promotional or transactional",
    "fieldname": "channel",
    "fieldtype": "Select",
@@ -35,6 +36,7 @@
   },
   {
    "default": "0",
+   "depends_on": "eval: doc.sms_provider == \"Business Lead\"",
    "description": "Data coding value",
    "fieldname": "dcs",
    "fieldtype": "Check",
@@ -42,22 +44,25 @@
   },
   {
    "default": "0",
+   "depends_on": "eval: doc.sms_provider == \"Business Lead\"",
    "fieldname": "flash_sms",
    "fieldtype": "Check",
    "label": "Flash SMS"
   },
   {
    "fieldname": "route",
+   "depends_on": "eval: doc.sms_provider == \"Business Lead\"",
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Route",
-   "reqd": 1
+   "mandatory_depends_on": "eval: doc.sms_provider == \"Business Lead\""
   },
   {
    "description": "DLT platform entity id.",
    "fieldname": "platform_entity_id",
    "fieldtype": "Data",
-   "label": "Platform Entity Id"
+   "label": "Platform Entity Id",
+   "mandatory_depends_on": "eval: doc.sms_provider == \"2Factor\""
   },
   {
    "fieldname": "column_break_rarz",
@@ -67,7 +72,7 @@
    "fieldname": "sms_provider",
    "fieldtype": "Select",
    "label": "SMS Provider",
-   "options": "\nBusiness Lead\nSMS Solutions"
+   "options": "\nBusiness Lead\nSMS Solutions\n2Factor"
   },
   {
    "fieldname": "sender_id",
@@ -85,7 +90,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-22 12:24:16.090499",
+ "modified": "2026-11-26 04:40:00.000000",
  "modified_by": "Administrator",
  "module": "SMS Integration",
  "name": "SMS Provider",

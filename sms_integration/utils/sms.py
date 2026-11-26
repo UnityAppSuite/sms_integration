@@ -26,6 +26,14 @@ def send_sms(phone_number, sms_template, context={}, sender_id=None, doc=None):
                 sms_template_doc.template_id,
                 sender_id,
             )
+        elif doc.sms_provider == "2Factor":
+            return two_factor_send_sms(
+                doc,
+                phone_number,
+                message,
+                sms_template_doc.template_id,
+                sender_id,
+            )
         elif doc.sms_provider == "SMS Solutions":
             return sms_solutions_send_sms(
                 doc,
@@ -37,7 +45,9 @@ def send_sms(phone_number, sms_template, context={}, sender_id=None, doc=None):
             )
         else:
             frappe.log_error(title=f"Failed to send SMS to {phone_number}", message="SMS Provider not found")
-    except Exception as e:
+    except frappe.ValidationError:
+        raise
+    except Exception:
         frappe.log_error(title=f"Failed to send SMS to {phone_number}", message=frappe.get_traceback())
         return False
 
@@ -88,6 +98,48 @@ def business_lead_send_sms(doc, phone_number, message, template_id, sender_id=No
             f"Failed to send SMS: {phone_number} {e}"
         )
         return False
+
+
+def two_factor_send_sms(doc, phone_number, message, template_id, sender_id=None):
+    """Send one transactional SMS through 2Factor without changing the caller contract."""
+    if not phone_number:
+        frappe.throw("Phone Number is required to send SMS.")
+    if not message:
+        frappe.throw("Message is required to send SMS.")
+
+    if not doc.platform_entity_id:
+        frappe.throw("Platform Entity Id (DLT PE ID) is required to send SMS via 2Factor.")
+    if not template_id:
+        frappe.throw("Template ID (DLT content template ID) is required to send SMS via 2Factor.")
+
+    data = {
+        "module": "TRANS_SMS",
+        "apikey": doc.get_password(fieldname="api_key", raise_exception=False),
+        "to": phone_number,
+        "from": sender_id or doc.sender_id,
+        "msg": message,
+        "peid": doc.platform_entity_id,
+        "ctid": template_id,
+    }
+
+    log = frappe.logger("sms_integration")
+    try:
+        response = requests.post("https://2factor.in/API/R1/", data=data, timeout=15)
+    except requests.RequestException as e:
+        log.error(f"Failed to reach 2Factor: {e}")
+        return False
+
+    try:
+        result = response.json()
+    except ValueError:
+        log.error(f"2Factor returned a non-JSON response: HTTP {response.status_code}")
+        return False
+
+    if response.ok and result.get("Status") == "Success":
+        return True
+
+    log.error(f"2Factor rejected SMS: HTTP {response.status_code}; details={result.get('Details')}")
+    return False
 
 
 def sms_solutions_send_sms(doc, phone_number, message, template_id, sender_id=None, context={}):
