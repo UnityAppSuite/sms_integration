@@ -30,4 +30,4 @@ class SMSProvider(Document):
             sender_id (str, optional): Sender ID. Defaults to None.
             context (dict, optional): Context to render the SMS Template. Defaults to {}.
         """
-        return send_sms(self, phone_number, sms_template, context, sender_id)
+        return send_sms(phone_number, sms_template, context, sender_id, self)
